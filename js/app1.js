@@ -1,18 +1,18 @@
 $(document).ready(function() {
 
-    a= 0;
+    a = 0;
     c = 0; //把计时器的初始变量重新赋值。
     var b = 0; //声明一个计数用的变量b。
     var CardPic = new Array(); //声明一个数组用来存放卡片i元素的类。
     var CardId = new Array(); //声明一个数组用来存放卡片的id标签。
     Init(); //初始化
     var winNumber = 0; //声明一个变量来对计时器停止进行控制。
-     //timedCount(); //加载计时器。
-     numberOfsteps(a); //加载计步器。
+    //timedCount(); //加载计时器。
+    numberOfsteps(a); //加载计步器。
 
     $(".restart").bind("click", RE = function() {
         //location.reload();//先前用的解决方案。
-        a= 0;
+        a = 0;
         c = 0; //把计时器的初始变量重新赋值。
         winNumber = 0; //声明一个变量来对计时器停止进行控制。
         b = 0; //声明一个计数用的变量b。
@@ -21,7 +21,7 @@ $(document).ready(function() {
         Init(); //初始化
         numberOfsteps(a); //加载计步器。
         $("#squar").find("li").unbind("click").bind("click", deal); //初始化点击事件。
-        //timedCount(); //加载计时器。
+        myStopFunction();
     });
     //点击事件编写
     $("li").bind("click", deal = function() { //把点击函数赋给变量deal.
@@ -32,8 +32,8 @@ $(document).ready(function() {
         b++;
         CardPic[b] = $(this).find("i").prop("className"); //通过点击把“i”所含的类赋值给CardPic。
         CardId[b] = $(this).find("i").prop("id"); //通过点击“i”的Id赋值给Cardid.
-        if (CardId[b] !== CardId[b - 1]&&b % 2 == 0) {
-          a=a+1;
+        if(CardId[b] !== CardId[b - 1] && b % 2 == 0) {
+            a = a + 1;
         }
         if(b % 2 == 0) {
 
@@ -64,26 +64,28 @@ $(document).ready(function() {
 
         }
         console.log(b);
-        if (b==1) {
-          timedCount(); //加载计时器。
+        if(b == 1) {
+            timedCount(); //加载计时器。
         }
-HideStart(b); //根据相应布属来控制星星数量。
-  numberOfsteps(a); //加载计步器
+        HideStart(b); //根据相应布属来控制星星数量。
+        numberOfsteps(a); //加载计步器
     });
-   $(".restartWin").bind("click",RE); //为弹出界面写的脚本.
+    $(".restartWin").bind("click", RE); //为弹出界面写的脚本.
 
 });
 
 //初始化函数
 function Init() {
-  document.getElementById('timer').innerHTML = c;
+    document.getElementById('timer').innerHTML = c;//初始化计时器
+    document.getElementById("CtrlStars").innerHTML = "3 Moves";//初始化move
+    document.getElementById("CtrlStarsWin").innerHTML = "3 Moves";//初始化move
     $("#star1").show();
     $("#star2").show();
     $("#star3").show();
     $("#star11").show();
     $("#star22").show();
     $("#star33").show();
-    $("#Winwindow").addClass("winDisply");
+    $("#Winwindow").addClass("winDisply");//隐藏win卡片.
     cleanCards(); //清除原有布局
     newCards(); //布设新的卡片布局
 } //初始化函数
@@ -132,18 +134,21 @@ function setSquare() {
 }
 
 //计步数
-var a=0;
+var a = 0;
+
 function numberOfsteps(a) {
     document.getElementById('steps').innerHTML = a;
 }
 //计时器函数。
 var c = 0;
 var t;
+
 function timedCount() {
     c = c + 1;
     document.getElementById('timer').innerHTML = c;
-   t = setTimeout("timedCount()", 1000); //每隔1秒调用一次函数。
+    t = setTimeout("timedCount()", 1000); //每隔1秒调用一次函数。
 }
+
 function myStopFunction() {
     clearTimeout(t);
 }
@@ -152,15 +157,16 @@ function HideStart(a) {
     if(a == 20) {
         $("#star1").hide();
         $("#star11").hide();
+        document.getElementById("CtrlStars").innerHTML = "2 Moves";
+        document.getElementById("CtrlStarsWin").innerHTML = "2 Moves";
     }
-    if(a == 30) {
+    if(a == 40) {
         $("#star2").hide();
         $("#star22").hide();
+        document.getElementById("CtrlStars").innerHTML = "1 Move";
+        document.getElementById("CtrlStarsWin").innerHTML = "1 Move";
     }
-    if(a > 50) {
-        $("#star3").hide();
-        $("#star33").hide();
-    }
+
 }
 
 
